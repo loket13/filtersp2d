@@ -1,8 +1,6 @@
 const jenisSPM = ['SEMUA','NON GAJI', 'NON GAJI KONTRAKTUAL', 'GUP', 'TUNJANGAN KINERJA SUSULAN', 'GAJI LAINNYA', 'GAJI INDUK', 'SPM-KP-PAJAK', 'KEKURANGAN GAJI', 'GUP KKP', 'PENGHASILAN PPNPN INDUK', 'PEMBAYARAN RPATA', 'GTUP NIHIL', 'TUNJANGAN KINERJA BULANAN', 'SPM THR TUNKIN', 'GAJI LAINNYA PPPK', 'GAJI SUSULAN', 'PENGHASILAN PPNPN SUSULAN', 'SPM THR GAJI PNS/TNI/POLRI', 'SPM GAJI 13 PNS/TNI/POLRI', 'GAJI PPPK INDUK', 'KEKURANGAN TUNJANGAN KINERJA', 'SPM GAJI 13 TUNKIN', 'SPM THR PPNPN', 'RETUR', 'UP', 'GAJI SUSULAN PPPK', 'SPM-P-PNBP', 'SPM THR PPPK', 'SPM GAJI 13 PPNPN', 'TUP', 'SPM GAJI 13 PPPK', 'KEKURANGAN GAJI PPPK', 'GUP VALAS', 'PENIHILAN RPATA', 'SPM-IB-PAJAK', 'GUP NIHIL', 'PENGESAHAN BLU', 'GUP VALAS NIHIL', 'PENGESAHAN HIBAH', 'SP4HL', 'SPM GAJI 13 PEJABAT NEGARA', 'SPM THR PEJABAT NEGARA'];
-
 const bulanSPM = ['SEMUA', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 const akunSPM = ['SEMUA', '51', '52', '53']
-
 
 function upload() {
     var files = document.getElementById('file_upload').files;
@@ -68,6 +66,7 @@ async function tesLoop(raw){
 };
 
 async function cleanData(data){
+    showResult();
     let cData = [];
     for (let i = 0; i < data.length; i++) {
         let kStkr = data[i]['Nomor Invoice'].slice(7,13);
