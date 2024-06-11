@@ -15,7 +15,6 @@
         <section id="selector">
             <label for="file_upload" class="fileLabel">1. Pilih File SP2D</label>
             <input type="file" id="file_upload" />
-
             <button onclick="upload()">2. Proses File SP2D</button>  
             <button onclick="showFilter()">3 Filter Data SP2D</button> 
             <button onclick="ExportToExcel()">4. Export Hasil</button>
@@ -38,16 +37,25 @@
             </div>
             
         </section>
-        <section id="filter">
+        <section id="infoBox">
+            <h1>Persiapan File:</h1>
+            Hapus header dokumen (2 baris atas sebelum header tabel).
+            <img src="./filterSP2D_info.png" alt="" class="bor">
+            <div class="bor">
+                <h1>Penting:</h1>
+                <span>Jika ada SPM dengan akun <strong>"99 - Lainnnya"</strong>, berarti jenis belanja pada uraian tidak sesuai/typo (contoh: Belanja Arang, seharusnya Belanja Barang).</span>
+            </div>
+        </section>
+        <section id="resultBox" class="hide">
             <table id="cleanTable">
                 <thead>
                     <tr>
                         <th>Kode Satker</th>
                         <th>Nomor SPM</th>
                         <th>Tgl SPM</th>
-                        <th>Bulan SPM</th>
                         <th>Nomor SP2D</th>
                         <th>Tgl SP2D</th>
+                        <th>Bulan SP2D</th>
                         <th>Jenis SPM</th>
                         <th>Akun</th>
                         <th>Nilai</th>

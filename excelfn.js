@@ -11,6 +11,8 @@ function upload() {
       return;
     }
     var filename = files[0].name;
+    let nName = files[0].name.split('.')[0];
+    localStorage.setItem('currentFile', nName);
     var extension = filename.substring(filename.lastIndexOf(".")).toUpperCase();
     if (extension == '.XLS' || extension == '.XLSX') {
         excelFileToJSON(files[0]);
@@ -168,6 +170,10 @@ async function doFilter(){
     let resJenis = await filJenis(cData, parJenis);
     let resBulan = await filBulan(resJenis, parBulan);
     let resFinal = await filAkun(resBulan, parAkun);
+    resFinal.sort(function (a, b) {
+        return a.bSP2D.localeCompare(b.bSP2D);
+    });
+
 
     console.log(resJenis);
     console.log(resBulan);
@@ -180,12 +186,12 @@ async function doFilter(){
         nRow.innerHTML =`
         <td>'${resFinal[i].kStkr}</td>
         <td>'${resFinal[i].nSPM}</td>
-        <td>${resFinal[i].tSPM}</td>
-        <td>${resFinal[i].bSPM}</td>
-        <td>${resFinal[i].nSP2D}</td>
-        <td>${resFinal[i].tSP2D}</td>
-        <td>${resFinal[i].jSPM}</td>
-        <td>${resFinal[i].aSPM}</td>
+        <td>'${resFinal[i].tSPM}</td>
+        <td>'${resFinal[i].nSP2D}</td>
+        <td>'${resFinal[i].tSP2D}</td>
+        <td>${resFinal[i].bSP2D}</td>
+        <td>'${resFinal[i].jSPM}</td>
+        <td>'${resFinal[i].aSPM}</td>
         <td>${resFinal[i].vSP2D}</td>
         `
         document.getElementById('cleanData').appendChild(nRow);
@@ -221,14 +227,19 @@ async function prepFilter(){
 async function showFilter(){
     document.getElementById('filterBox').classList.toggle('hide');
 };
+async function showResult(){
+    document.getElementById('infoBox').classList.add('hide');
+    document.getElementById('resultBox').classList.remove('hide');
+};
 
 
 function ExportToExcel(type, fn, dl) {
+    let nName = localStorage.getItem('currentFile');
     var elt = document.getElementById('cleanTable');
     var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
     return dl ?
       XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-      XLSX.writeFile(wb, fn || ('filterSP2D.' + (type || 'xlsx')));
+      XLSX.writeFile(wb, fn || (nName + '_filtered.' + (type || 'xlsx')));
  };
 
  prepFilter();
