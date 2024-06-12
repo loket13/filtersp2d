@@ -16,8 +16,9 @@
             <label for="file_upload" class="fileLabel">1. Pilih File SP2D</label>
             <input type="file" id="file_upload" />
             <button onclick="upload()">2. Proses File SP2D</button>  
-            <button onclick="showFilter()">3 Filter Data SP2D</button> 
+            <button onclick="showFilter()">3. Filter Data SP2D</button> 
             <button onclick="ExportToExcel()">4. Export Hasil</button>
+            <button onclick="sumResult()">5. SUM Result</button>
         </section>
         <section id="filterBox" class="hide">
             <div class="row">
@@ -26,8 +27,8 @@
                     <select name="jenisSPM" id="jenisSPM"></select>
                 </div>
                 <div class="box">
-                    <label for="bulanSPM">Bulan SPM</label>
-                    <select name="bulanSPM" id="bulanSPM"></select>
+                    <label for="triwulanSP2D">Bulan SPM</label>
+                    <select name="triwulanSP2D" id="triwulanSP2D"></select>
                 </div>
                 <div class="box">
                     <label for="akunSPM">Akun Belanja</label>
@@ -35,7 +36,20 @@
                 </div>
                 <button onclick="doFilter()">Filter</button>
             </div>
-            
+        </section>
+        <section id="sumBox" class="hide">
+            <table id="sumTable">
+                <thead>
+                    <tr>
+                        <th>Total Jumlah SP2D</th>
+                        <th>Total Nilai SP2D</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td id="sumJumlah"></td>
+                    <td id="sumNilai"></td>
+                </tr>
+            </table>
         </section>
         <section id="infoBox">
             <h1>Persiapan File:</h1>

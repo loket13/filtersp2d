@@ -1,6 +1,6 @@
 const jenisSPM = ['SEMUA','NON GAJI', 'NON GAJI KONTRAKTUAL', 'GUP', 'TUNJANGAN KINERJA SUSULAN', 'GAJI LAINNYA', 'GAJI INDUK', 'SPM-KP-PAJAK', 'KEKURANGAN GAJI', 'GUP KKP', 'PENGHASILAN PPNPN INDUK', 'PEMBAYARAN RPATA', 'GTUP NIHIL', 'TUNJANGAN KINERJA BULANAN', 'SPM THR TUNKIN', 'GAJI LAINNYA PPPK', 'GAJI SUSULAN', 'PENGHASILAN PPNPN SUSULAN', 'SPM THR GAJI PNS/TNI/POLRI', 'SPM GAJI 13 PNS/TNI/POLRI', 'GAJI PPPK INDUK', 'KEKURANGAN TUNJANGAN KINERJA', 'SPM GAJI 13 TUNKIN', 'SPM THR PPNPN', 'RETUR', 'UP', 'GAJI SUSULAN PPPK', 'SPM-P-PNBP', 'SPM THR PPPK', 'SPM GAJI 13 PPNPN', 'TUP', 'SPM GAJI 13 PPPK', 'KEKURANGAN GAJI PPPK', 'GUP VALAS', 'PENIHILAN RPATA', 'SPM-IB-PAJAK', 'GUP NIHIL', 'PENGESAHAN BLU', 'GUP VALAS NIHIL', 'PENGESAHAN HIBAH', 'SP4HL', 'SPM GAJI 13 PEJABAT NEGARA', 'SPM THR PEJABAT NEGARA'];
 
-const bulanSPM = ['SEMUA', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+const triwulanSP2D = ['SEMUA', 'Q1', 'Q2', 'Q3', 'Q4'];
 const akunSPM = ['SEMUA', '51', '52', '53']
 
 
@@ -91,7 +91,7 @@ async function cleanData(data){
             || uSPM.includes("ketigabelas")
             || uSPM.includes("tiga belas")
             || uSPM.includes("tigabelas")
-            || uSPM.includes("ketiga belas")
+            || uSPM.includes("pembayaran gaji")
         ){
             aSPM = '51';
          } else if(uSPM.includes("belanja barang")){
@@ -138,18 +138,34 @@ async function filJenis(data, par){
     };
     return resJenis;
 };
-async function filBulan(data, par){
-    let resBulan = [];
+async function filTriwulan(data, par){
+    let resTriwulan = [];
     for (let i = 0; i < data.length; i++) {
         if(par === 'SEMUA'){
-            resBulan.push(data[i]);
-        } else {
-            if(data[i].bSPM === par){
-                resBulan.push(data[i]);
-            };
+            resTriwulan.push(data[i]);
+        } else if(par === 'Q1'){
+            if(data[i].bSP2D === '01'
+                || data[i].bSP2D === '02'
+                || data[i].bSP2D === '03')
+                resTriwulan.push(data[i]);
+        } else if(par === 'Q2'){
+            if(data[i].bSP2D === '04'
+                || data[i].bSP2D === '05'
+                || data[i].bSP2D === '06')
+                resTriwulan.push(data[i]);
+        } else if(par === 'Q3'){
+            if(data[i].bSP2D === '07'
+                || data[i].bSP2D === '08'
+                || data[i].bSP2D === '09')
+                resTriwulan.push(data[i]);
+        } else if(par === 'Q4'){
+            if(data[i].bSP2D === '10'
+                || data[i].bSP2D === '11'
+                || data[i].bSP2D === '12')
+                resTriwulan.push(data[i]);
         };
-    };
-    return resBulan;
+        };
+    return resTriwulan;
 };
 async function filAkun(data, par){
     let resAkun = [];
@@ -172,19 +188,18 @@ async function doFilter(){
     let cData = JSON.parse(rData);
 
     let parJenis = document.getElementById('jenisSPM').value;
-    let parBulan = document.getElementById('bulanSPM').value;
+    let parTriwulan = document.getElementById('triwulanSP2D').value;
     let parAkun = document.getElementById('akunSPM').value;
 
     let resJenis = await filJenis(cData, parJenis);
-    let resBulan = await filBulan(resJenis, parBulan);
-    let resFinal = await filAkun(resBulan, parAkun);
+    let resTriwulan = await filTriwulan(resJenis, parTriwulan);
+    let resFinal = await filAkun(resTriwulan, parAkun);
     resFinal.sort(function (a, b) {
         return a.bSP2D.localeCompare(b.bSP2D);
     });
 
-
     console.log(resJenis);
-    console.log(resBulan);
+    console.log(resTriwulan);
     console.log(resFinal);
 
     document.getElementById('cleanData').innerHTML = '';
@@ -205,12 +220,26 @@ async function doFilter(){
         document.getElementById('cleanData').appendChild(nRow);
     };
     localStorage.setItem('filData', JSON.stringify(resFinal));
+    sumResult(parTriwulan);
 };
+
+async function sumResult(parTriwulan){
+    let rawData = localStorage.getItem('filData');
+    let clnData = JSON.parse(rawData);
+    let nilTotal = 0;
+    for (let i = 0; i < clnData.length; i++) {
+        nilTotal+=clnData[i].vSP2D;       
+    };
+    document.getElementById('sumBox').classList.remove('hide');
+    document.getElementById('sumJumlah').innerHTML = clnData.length;
+    document.getElementById('sumNilai').innerHTML = nilTotal;
+}
+
 
 
 async function prepFilter(){
     var jSPM = document.getElementById("jenisSPM");
-    var bSPM = document.getElementById("bulanSPM");
+    var bSPM = document.getElementById("triwulanSP2D");
     var aSPM = document.getElementById("akunSPM");
 
     for (let i = 0; i < jenisSPM.length; i++) {
@@ -219,10 +248,10 @@ async function prepFilter(){
         nOps.innerHTML = jenisSPM[i];
         jSPM.add(nOps);
     };
-    for (let j = 0; j < bulanSPM.length; j++) {
+    for (let j = 0; j < triwulanSP2D.length; j++) {
         var nOps = document.createElement("option");
-        nOps.value = bulanSPM[j];
-        nOps.innerHTML = bulanSPM[j];
+        nOps.value = triwulanSP2D[j];
+        nOps.innerHTML = triwulanSP2D[j];
         bSPM.add(nOps);
     };
     for (let k = 0; k < akunSPM.length; k++) {
