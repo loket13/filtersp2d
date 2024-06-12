@@ -86,7 +86,13 @@ async function cleanData(data){
         let jSPM = data[i]['Jenis SPM'];
         let uSPM = data[i]['Deskripsi'].toLowerCase();
 
-        if(uSPM.includes("belanja pegawai")){
+        if(uSPM.includes("belanja pegawai")
+            || uSPM.includes("thr")
+            || uSPM.includes("ketigabelas")
+            || uSPM.includes("tiga belas")
+            || uSPM.includes("tigabelas")
+            || uSPM.includes("ketiga belas")
+        ){
             aSPM = '51';
          } else if(uSPM.includes("belanja barang")){
             aSPM = '52';
@@ -108,7 +114,7 @@ async function cleanData(data){
         <td>${tSPM}</td>
         <td>${nSP2D}</td>
         <td>${tSP2D}</td>
-        <td>${bSP2D}</td>
+        <td>${tSP2D}</td>
         <td>${jSPM}</td>
         <td>${aSPM}</td>
         <td>${vSP2D}</td>
