@@ -106,9 +106,9 @@ async function cleanData(data){
         <td>'${kStkr}</td>
         <td>'${nSPM}</td>
         <td>${tSPM}</td>
-        <td>${bSPM}</td>
         <td>${nSP2D}</td>
         <td>${tSP2D}</td>
+        <td>${bSP2D}</td>
         <td>${jSPM}</td>
         <td>${aSPM}</td>
         <td>${vSP2D}</td>
