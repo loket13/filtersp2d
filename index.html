@@ -3,12 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./xlsx.full.min.js"></script>
     <link rel="stylesheet" href="./style.css">
     <title>Excel Helpers - Filter SP2D</title>
 </head>
 <body>
-  <p>
-      Inactive, pindah ke: <a href="https://loket13.github.io/xlhelpers/" target="_blank" rel="noopener noreferrer">xlhelpers</a>
-  </p>
+    <header>
+        Excel Helpers - Filter SP2D [Bersihkan dulu file sumber (worksheet hanya 1, data sudah difilter)]
+    </header>
+    <main>
+        <section id="selector">
+            <label for="file_upload" class="fileLabel">1. Pilih File SP2D</label>
+            <input type="file" id="file_upload" />
+            <button onclick="upload()">2. Proses File SP2D</button>  
+            <button onclick="showFilter()">3. Filter Data SP2D</button> 
+            <button onclick="ExportToExcel()">4. Export Hasil</button>
+        </section>
+        <section id="filterBox" class="hide">
+            <div class="row">
+                <div class="box">
+                    <label for="jenisSPM">Jenis SPM</label>
+                    <select name="jenisSPM" id="jenisSPM"></select>
+                </div>
+                <div class="box">
+                    <label for="triwulanSP2D">Bulan SPM</label>
+                    <select name="triwulanSP2D" id="triwulanSP2D"></select>
+                </div>
+                <div class="box">
+                    <label for="akunSPM">Akun Belanja</label>
+                    <select name="akunSPM" id="akunSPM"></select>
+                </div>
+                <button onclick="doFilter()">Filter</button>
+            </div>
+        </section>
+        <section id="sumBox" class="hide">
+            <table id="sumTable">
+                <thead>
+                    <tr>
+                        <th>Total Jumlah SP2D</th>
+                        <th>Total Nilai SP2D</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td id="sumJumlah"></td>
+                    <td id="sumNilai"></td>
+                </tr>
+            </table>
+        </section>
+        <section id="infoBox">
+            <h1>Persiapan File:</h1>
+            Hapus header dokumen (2 baris atas sebelum header tabel).
+            <img src="./filterSP2D_info.png" alt="" class="bor">
+            <div class="bor">
+                <h1>Penting:</h1>
+                <span>Jika ada SPM dengan akun <strong>"99 - Lainnnya"</strong>, berarti jenis belanja pada uraian tidak sesuai/typo (contoh: Belanja Arang, seharusnya Belanja Barang).</span>
+            </div>
+        </section>
+        <section id="resultBox" class="hide">
+            <table id="cleanTable">
+                <thead>
+                    <tr>
+                        <th>Kode Satker</th>
+                        <th>Nomor SPM</th>
+                        <th>Tgl SPM</th>
+                        <th>Nomor SP2D</th>
+                        <th>Tgl SP2D</th>
+                        <th>Bulan SP2D</th>
+                        <th>Jenis SPM</th>
+                        <th>Akun</th>
+                        <th>Nilai</th>
+                    </tr>
+                </thead>
+                <tbody id="cleanData">
+
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="./excelfn.js"></script>
 </body>
 </html>
